@@ -1,39 +1,29 @@
-FICHA DE VISTORIA ITAZI - VERSAO 7 (ficha-11)
+FICHA DE VISTORIA 2.0 - AJUSTES DE USABILIDADE (cache ficha-12)
 
-COMO PUBLICAR
+PUBLICACAO
 1. Extraia este ZIP.
-2. Envie TODOS os arquivos e a pasta icons para a raiz do repositorio GitHub Pages.
+2. Envie todos os arquivos e a pasta icons para a raiz do GitHub Pages.
 3. Confirme o commit e aguarde a Action ficar verde.
-4. No celular, abra com internet, feche o app completamente e abra novamente.
+4. Abra o app com internet, feche completamente e abra novamente.
 
-ARQUIVOS NOVOS/ALTERADOS
-- index.html
-- melhorias-v7.js (novo modulo das melhorias)
-- sw.js (cache ficha-11)
-- demais arquivos oficiais preservados
+PRINCIPAIS ALTERACOES
+- Barra simplificada: Ficha completa, Preencher por etapas, Buscar e Menu.
+- Revisar renomeado para Revisar ficha no Menu.
+- Estatistica de Projeto removida da barra principal.
+- Menu reorganizado por Ficha, Dados e seguranca e Aplicativo.
+- Exportacoes e backup recolhidos em paineis suspensos.
+- Mapa e copiar coordenadas movidos para junto da captura de GPS.
+- Documentos apresentados em cartoes; um documento aberto por vez.
+- Croqui substituido na interface por folha digital em tela cheia:
+  desenho livre, regua, ortogonal, curva, amarracao por dois pontos exatos,
+  texto, borracha, editar/mover, grade e encaixe opcionais, medidas opcionais,
+  desfazer e refazer.
+- O desenho do croqui nao e reajustado automaticamente pelas medidas.
+- As amarracoes nao movem rua, construcao ou divisa.
 
-RECURSOS INTEGRADOS
-- Modo Campo e Ficha Completa
-- progresso, pendencias e revisao
-- fotos classificadas e vinculadas a benfeitorias
-- organizacao posterior das fotos
-- documentos separados em cartoes
-- croqui livre, linha, ortogonal, curva, borracha, grade e encaixe opcionais
-- historico e situacao da ficha
-- conversao/copiar Urbana-Rural
-- busca e filtros
-- painel do projeto
-- backup por ficha/projeto/tudo com SHA-256 no manifesto JSON
-- painel de armazenamento
-- controle tecnico objetivo de fotos
-- rastreabilidade GPS e abertura em mapa externo
-- documentos rurais com situacoes
-- N/A, Nao informado e Nao verificado seletivos
-- revisao final e PDF RASCUNHO
-- configuracoes gerais do aparelho
+MANIFESTO
+- Somente short_name foi alterado para: Ficha Vistoria 2.0
 
-OBSERVACOES
-- Dados salvos nas versoes anteriores permanecem no IndexedDB do navegador.
-- Croquis antigos continuam preservados. A camada livre nova e adicionada ao resultado exportado.
-- O backup atual usa JSON compativel com as versoes anteriores e inclui SHA-256. A separacao fisica de fotos em ZIP ficou preservada como evolucao futura para nao quebrar a restauracao existente.
-- O mapa abre externamente no Google Maps; o app continua funcionando sem internet.
+COMPATIBILIDADE
+- Dados e fichas anteriores permanecem no IndexedDB do navegador.
+- A camada nova de croqui e salva na ficha e incorporada ao PDF/Word pelo mecanismo existente.
