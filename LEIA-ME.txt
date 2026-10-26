@@ -1,0 +1,39 @@
+FICHA DE VISTORIA ITAZI - VERSAO 7 (ficha-11)
+
+COMO PUBLICAR
+1. Extraia este ZIP.
+2. Envie TODOS os arquivos e a pasta icons para a raiz do repositorio GitHub Pages.
+3. Confirme o commit e aguarde a Action ficar verde.
+4. No celular, abra com internet, feche o app completamente e abra novamente.
+
+ARQUIVOS NOVOS/ALTERADOS
+- index.html
+- melhorias-v7.js (novo modulo das melhorias)
+- sw.js (cache ficha-11)
+- demais arquivos oficiais preservados
+
+RECURSOS INTEGRADOS
+- Modo Campo e Ficha Completa
+- progresso, pendencias e revisao
+- fotos classificadas e vinculadas a benfeitorias
+- organizacao posterior das fotos
+- documentos separados em cartoes
+- croqui livre, linha, ortogonal, curva, borracha, grade e encaixe opcionais
+- historico e situacao da ficha
+- conversao/copiar Urbana-Rural
+- busca e filtros
+- painel do projeto
+- backup por ficha/projeto/tudo com SHA-256 no manifesto JSON
+- painel de armazenamento
+- controle tecnico objetivo de fotos
+- rastreabilidade GPS e abertura em mapa externo
+- documentos rurais com situacoes
+- N/A, Nao informado e Nao verificado seletivos
+- revisao final e PDF RASCUNHO
+- configuracoes gerais do aparelho
+
+OBSERVACOES
+- Dados salvos nas versoes anteriores permanecem no IndexedDB do navegador.
+- Croquis antigos continuam preservados. A camada livre nova e adicionada ao resultado exportado.
+- O backup atual usa JSON compativel com as versoes anteriores e inclui SHA-256. A separacao fisica de fotos em ZIP ficou preservada como evolucao futura para nao quebrar a restauracao existente.
+- O mapa abre externamente no Google Maps; o app continua funcionando sem internet.
