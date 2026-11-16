@@ -368,19 +368,21 @@
         <datalist id="lst_ref"><option>Rua</option><option>Estrada</option><option>Rodovia</option><option>Alinhamento predial</option><option>Muro</option><option>Cerca</option><option>Divisa</option></datalist>
     </form>
 
-    <div class="actions">
-        <h3>Baixar e compartilhar</h3>
-        <button type="button" class="btn btn-pdf" id="bPdf" onclick="exportPDF()">Baixar PDF</button>
-        <button type="button" class="btn btn-share" id="bShare" onclick="itaziSelecionarFormatos('compartilhar')">Compartilhar...</button>
-        <button type="button" class="btn btn-doc" onclick="exportDOC()">Baixar Word (.DOCX)</button>
-        <button type="button" class="btn btn-excel" onclick="exportEXCEL()">Baixar CSV da ficha</button>
-        <button type="button" class="btn btn-excel" onclick="itaziExportarCSVProjeto()">Baixar CSV do projeto</button>
-        <button type="button" class="btn" onclick="itaziSelecionarFormatos('baixar')">Escolher formatos...</button>
-        <button type="button" class="btn btn-sec" onclick="itaziConcluir()">✓ Concluir vistoria</button>
-        <br>
-        <button type="button" class="btn btn-sec" onclick="salvarBackup()">Salvar cópia de segurança</button>
-        <button type="button" class="btn btn-sec" onclick="document.getElementById('abrirBackup').click()">Restaurar cópia</button>
-        <input type="file" id="abrirBackup" accept=".json" style="display:none" onchange="restaurarBackup(this)">
+    <div class="actions itazi-actions-simples">
+        <h3>Finalizar vistoria</h3>
+        <button type="button" class="btn itazi-concluir" onclick="itaziConcluir()">✓ CONCLUIR VISTORIA</button>
+        <h3 class="itazi-arq-titulo">Arquivos</h3>
+        <div class="itazi-arq-botoes">
+            <button type="button" class="btn itazi-baixar" onclick="itaziSelecionarFormatos('baixar')">↓ BAIXAR</button>
+            <button type="button" class="btn btn-share itazi-compartilhar" onclick="itaziSelecionarFormatos('compartilhar')">↗ COMPARTILHAR</button>
+        </div>
+        <div class="itazi-autosalvo">✓ Salvo automaticamente no aparelho</div>
+        <details class="itazi-config"><summary>⚙ Configurações</summary>
+            <div class="itazi-config-box"><b>Dados e backup</b><br>
+            <button type="button" class="btn btn-sec" onclick="salvarBackup()">Fazer backup agora</button>
+            <button type="button" class="btn btn-sec" onclick="document.getElementById('abrirBackup').click()">Restaurar backup</button>
+            <input type="file" id="abrirBackup" accept=".json" style="display:none" onchange="restaurarBackup(this)"></div>
+        </details>
     </div>
 </div>
 <div class="toast" id="toast"></div>
