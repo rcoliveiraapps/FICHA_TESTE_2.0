@@ -150,7 +150,7 @@
             <div class="form-row">
                 <div class="form-group cep"><label>CEP:</label><input type="text" name="cep_imovel" data-mask="cep" data-cep="imovel" inputmode="numeric" placeholder="00000-000">
                     <span class="dica" id="cepInfo_imovel">Preenche o endereço automaticamente</span></div>
-                <div class="form-group" style="flex:3"><label><span class="so-urb">ENDEREÇO DO IMÓVEL:</span><span class="so-rur">ENDEREÇO / LOCALIZAÇÃO DO IMÓVEL:</span></label><input type="text" name="endereco_imovel" placeholder="Rua / avenida / rodovia"></div><div class="form-group" style="flex:0 0 105px"><label>NÚMERO:</label><input type="text" name="numero_imovel" placeholder="Nº / s/n"></div>
+                <div class="form-group" style="flex:3"><label><span class="so-urb">ENDEREÇO DO IMÓVEL:</span><span class="so-rur">ENDEREÇO / LOCALIZAÇÃO DO IMÓVEL:</span></label><input type="text" name="endereco_imovel" placeholder="Rua / avenida / rodovia"></div><div class="form-group" style="flex:0 0 110px"><label>NÚMERO:</label><input type="text" name="numero_imovel" placeholder="Nº / s/n"></div>
             </div>
             <div class="form-row">
                 <div class="form-group"><label>BAIRRO:</label><input type="text" name="bairro_imovel"></div>
@@ -302,10 +302,8 @@
                 <div class="form-group"><label>E-MAIL:</label><input type="email" name="email_proprietario"></div>
                 <div class="form-group"><label>CELULAR:</label><input type="tel" name="celular_proprietario" data-mask="fone" inputmode="numeric"></div><div class="form-group"><label>TELEFONE 2:</label><input type="tel" name="telefone_proprietario_2" data-mask="fone" inputmode="numeric"></div><div class="form-group"><label>TELEFONE 3:</label><input type="tel" name="telefone_proprietario_3" data-mask="fone" inputmode="numeric"></div>
             </div>
-            <div id="outrosInteressados" style="margin-top:14px;border-top:1px dashed #cbd5e0;padding-top:12px">
-                <h4 style="margin:0 0 8px">OUTROS INTERESSADOS</h4>
-                <input type="hidden" name="interessados_json">
-                <div id="listaInteressados"></div>
+            <div id="outrosInteressados" class="quadro" style="margin-top:12px">
+                <h4>OUTROS INTERESSADOS</h4><input type="hidden" name="interessados_json"><div id="listaInteressados"></div>
                 <button type="button" class="btn-mini" onclick="itaziAdicionarInteressado()">+ Adicionar interessado</button>
             </div>
             <div class="form-row"><div class="form-group full"><label>OBSERVAÇÕES (OBS):</label><textarea name="observacoes"></textarea></div></div>
@@ -371,17 +369,14 @@
     </form>
 
     <div class="actions">
-        <h3>Opções de Download e Compartilhamento</h3>
+        <h3>Baixar e compartilhar</h3>
         <button type="button" class="btn btn-pdf" id="bPdf" onclick="exportPDF()">Baixar PDF</button>
         <button type="button" class="btn btn-share" id="bShare" onclick="itaziSelecionarFormatos('compartilhar')">Compartilhar...</button>
         <button type="button" class="btn btn-doc" onclick="exportDOC()">Baixar Word (.DOCX)</button>
-        <button type="button" class="btn btn-excel" onclick="exportEXCEL()">Baixar planilha (.CSV)</button>
-        <button type="button" class="btn btn-excel" onclick="exportProjetoCSV()">Planilha do projeto (todas as fichas)</button>
-        <button type="button" class="btn" onclick="itaziSelecionarFormatos('baixar')">Baixar formatos...</button>
-        <button type="button" class="btn btn-sec" onclick="itaziExportarFicha()">Exportar esta ficha</button>
-        <button type="button" class="btn btn-sec" onclick="document.getElementById('itaziImportarFicha').click()">Importar ficha</button>
-        <input type="file" id="itaziImportarFicha" accept=".json,application/json" hidden onchange="itaziImportarFicha(this)">
-        <button type="button" class="btn btn-sec" onclick="itaziEscolherPasta()">Escolher pasta de cópias</button>
+        <button type="button" class="btn btn-excel" onclick="exportEXCEL()">Baixar CSV da ficha</button>
+        <button type="button" class="btn btn-excel" onclick="itaziExportarCSVProjeto()">Baixar CSV do projeto</button>
+        <button type="button" class="btn" onclick="itaziSelecionarFormatos('baixar')">Escolher formatos...</button>
+        <button type="button" class="btn btn-sec" onclick="itaziConcluir()">✓ Concluir vistoria</button>
         <br>
         <button type="button" class="btn btn-sec" onclick="salvarBackup()">Salvar cópia de segurança</button>
         <button type="button" class="btn btn-sec" onclick="document.getElementById('abrirBackup').click()">Restaurar cópia</button>
@@ -762,6 +757,7 @@ async function processarFoto(file) {
     let coord = null, origem = '';
     if (meta.lat != null) { coord = { lat: meta.lat, lon: meta.lon }; origem = 'foto'; }
     else if (atual && atual.gps) { coord = atual.gps; origem = 'ficha'; }
+    const baseSrc = c.toDataURL('image/jpeg', 0.86);
     const modoC = v('carimbo_coord'), linhas = [];
     if (v('carimbo_data')) linhas.push(quando.toLocaleDateString('pt-BR') + '  ' + quando.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
     if (modoC !== 'sem' && coord) linhas.push(modoC === 'utm' ? txtUTM(coord) : txtLatLon(coord));
@@ -774,7 +770,7 @@ async function processarFoto(file) {
         linhas.forEach((l, i) => g.fillText(l, c.width - w + pad, c.height - h + pad * 0.6 + i * fs * 1.25));
     }
     const src = c.toDataURL('image/jpeg', 0.8); c.width = c.height = 0;
-    return { src, leg: '', data: quando.toISOString(), carimbo: modoC !== 'sem' && !!coord, origem: coord ? origem : '', lat: coord ? coord.lat : null, lon: coord ? coord.lon : null };
+    return { src, baseSrc, leg: '', data: quando.toISOString(), carimbo: modoC !== 'sem' && !!coord, modoCarimbo: modoC, origem: coord ? origem : '', lat: coord ? coord.lat : null, lon: coord ? coord.lon : null, gpsFoto: meta.lat != null ? {lat:meta.lat,lon:meta.lon} : null, gpsFicha: atual && atual.gps ? {...atual.gps} : null, gpsManual: null };
 }
 function abrirCamera() { localStorage.setItem('abrindoCamera', String(Date.now())); $('cameraInput').click(); }
 $('cameraInput').addEventListener('cancel', () => localStorage.removeItem('abrindoCamera'));
