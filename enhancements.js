@@ -22,7 +22,7 @@ function sincronizarCoords(){
   const u=utm(lat,lon); f.elements.coordenadas_latlon.value=lat.toFixed(7)+', '+lon.toFixed(7); f.elements.coordenadas_utm.value=Math.round(u.e)+' E, '+Math.round(u.n)+' N, Fuso '+u.z+u.hem;
 }
 function addInteressados(){
-  const fs=[...document.querySelectorAll('fieldset')].find(x=>/propriet|interessad|cadastrais do propriet/i.test(x.textContent)); if(!fs||$id('itaziInteressados')) return;
+  const fs=[...document.querySelectorAll('fieldset')].find(x=>/Dados dos Interessados/i.test(x.querySelector('legend')?.textContent||'')); if(!fs||$id('itaziInteressados')) return;
   const box=document.createElement('div'); box.id='itaziInteressados'; box.className='quadro'; box.innerHTML='<h4>OUTROS INTERESSADOS</h4><div id="itaziListaInteressados"></div><button type="button" class="btn-mini" id="itaziAddInteressado">+ Adicionar interessado</button><input type="hidden" name="interessados_json">'; fs.appendChild(box);
   $id('itaziAddInteressado').onclick=()=>novoInteressado({});
   renderInteressados();
