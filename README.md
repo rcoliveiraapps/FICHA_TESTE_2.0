@@ -20,3 +20,6 @@ A seleção da pasta agora executa uma gravação de teste. Navegadores que forn
 
 ## Correção v19
 Corrigido um erro de escopo no módulo v17/v18: as funções de pasta e de conclusão usavam auxiliares (`F`, `vv`, `esc`) definidos dentro de outro módulo JavaScript e, por isso, não estavam acessíveis em tempo de execução. Isso explicava simultaneamente o salvamento cair em Downloads e o botão Concluir Vistoria aparentar não mudar. Os auxiliares agora são locais ao módulo e acessíveis por todas essas funções.
+
+## Alteração v20
+A estrutura automática das pastas passa a priorizar o projeto: `Projeto / Ano / Mês`. O texto em Configurações e na Ajuda rápida foi ajustado para o mesmo padrão. Se o projeto estiver vazio, usa `SEM-PROJETO / Ano / Mês`.
