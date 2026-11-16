@@ -17,3 +17,6 @@ Cache offline: `ficha-18`.
 
 ## Correção v18
 A seleção da pasta agora executa uma gravação de teste. Navegadores que fornecem um diretório gravável sem os métodos `queryPermission/requestPermission` também são aceitos. Se a gravação falhar, o app informa claramente antes de usar Downloads.
+
+## Correção v19
+Corrigido um erro de escopo no módulo v17/v18: as funções de pasta e de conclusão usavam auxiliares (`F`, `vv`, `esc`) definidos dentro de outro módulo JavaScript e, por isso, não estavam acessíveis em tempo de execução. Isso explicava simultaneamente o salvamento cair em Downloads e o botão Concluir Vistoria aparentar não mudar. Os auxiliares agora são locais ao módulo e acessíveis por todas essas funções.

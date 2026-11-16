@@ -49,6 +49,9 @@ const css=document.createElement('style');css.textContent='.itazi-config-btn{bor
 })();
 /* ===== v17: pasta real, referência/número, conclusão, ajuda e croqui de campo ===== */
 (function(){
+const F=()=>window.form;
+const vv=n=>F()?.elements?.[n]?.value||'';
+const esc=s=>String(s??'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]));
 let pastaV17=null;const DBH='itazi_handles',STORE='handles';
 async function hdb(){return new Promise((ok,no)=>{const r=indexedDB.open(DBH,1);r.onupgradeneeded=()=>r.result.createObjectStore(STORE);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}
 async function hget(){try{const d=await hdb();return await new Promise((ok,no)=>{const r=d.transaction(STORE).objectStore(STORE).get('pasta');r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}catch(e){}}
