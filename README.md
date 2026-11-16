@@ -1,4 +1,4 @@
-# Ficha de Vistoria - Itazi Engenharia v17
+# Ficha de Vistoria - Itazi Engenharia v18
 
 Versão consolidada para uso em campo.
 
@@ -12,4 +12,8 @@ Versão consolidada para uso em campo.
 - Ajuda rápida integrada para início, localização, fotos, croqui, conclusão e downloads.
 - Mantidas as diferenças originais entre Urbana e Rural.
 
-Cache offline: `ficha-17`.
+Cache offline: `ficha-18`.
+
+
+## Correção v18
+A seleção da pasta agora executa uma gravação de teste. Navegadores que fornecem um diretório gravável sem os métodos `queryPermission/requestPermission` também são aceitos. Se a gravação falhar, o app informa claramente antes de usar Downloads.
