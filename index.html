@@ -150,7 +150,7 @@
             <div class="form-row">
                 <div class="form-group cep"><label>CEP:</label><input type="text" name="cep_imovel" data-mask="cep" data-cep="imovel" inputmode="numeric" placeholder="00000-000">
                     <span class="dica" id="cepInfo_imovel">Preenche o endereço automaticamente</span></div>
-                <div class="form-group" style="flex:3"><label><span class="so-urb">ENDEREÇO DO IMÓVEL:</span><span class="so-rur">ENDEREÇO / LOCALIZAÇÃO DO IMÓVEL:</span></label><input type="text" name="endereco_imovel" placeholder="Rua / avenida / rodovia, número"></div>
+                <div class="form-group" style="flex:3"><label><span class="so-urb">ENDEREÇO DO IMÓVEL:</span><span class="so-rur">ENDEREÇO / LOCALIZAÇÃO DO IMÓVEL:</span></label><input type="text" name="endereco_imovel" placeholder="Rua / avenida / rodovia"></div><div class="form-group" style="flex:0 0 110px"><label>NÚMERO:</label><input type="text" name="numero_imovel" placeholder="Nº / s/n"></div><div class="form-group"><label>COMPLEMENTO:</label><input type="text" name="complemento_imovel"></div>
             </div>
             <div class="form-row">
                 <div class="form-group"><label>BAIRRO:</label><input type="text" name="bairro_imovel"></div>
@@ -164,7 +164,7 @@
                     <label><span class="so-urb">COORDENADAS (LAT/LONG):</span><span class="so-rur">COORDENADAS UTM (SIRGAS 2000):</span></label>
                     <div class="gps-box"><input type="text" name="coordenadas" placeholder="Toque em “Capturar posição” no local do imóvel">
                         <button type="button" class="btn-mini" onclick="capturarGPS()">📍 Capturar posição</button></div>
-                    <span class="dica">Precisão: Ótima até 5 m · Boa 5–15 m · Ruim 15–30 m · Péssima acima de 30 m.</span>
+                    <span class="dica">Precisão: Ótima até 5 m · Boa 5–15 m · Ruim 15–30 m · Péssima acima de 30 m.</span><div class="form-row" style="margin-top:8px"><div class="form-group"><label>LATITUDE/LONGITUDE:</label><input type="text" name="coordenadas_latlon" placeholder="-23.000000, -46.000000"></div><div class="form-group"><label>UTM / SIRGAS 2000:</label><input type="text" name="coordenadas_utm" placeholder="E, N, fuso"></div></div>
                 </div>
             </div>
             <div class="so-urb">
@@ -296,9 +296,9 @@
             </div>
             <div class="form-row">
                 <div class="form-group"><label>PROFISSÃO (CÔNJUGE):</label><input type="text" name="profissao_conjuge"></div>
-                <div class="form-group"><label>TELEFONE:</label><input type="tel" name="telefone_proprietario" data-mask="fone" inputmode="numeric"></div>
+                <div class="form-group"><label>TELEFONE:</label><input type="tel" name="telefone_proprietario" data-mask="fone" inputmode="numeric"></div><div class="form-group"><label>TELEFONE 2:</label><input type="tel" name="telefone_proprietario_2" data-mask="fone" inputmode="numeric"></div><div class="form-group"><label>TELEFONE 3:</label><input type="tel" name="telefone_proprietario_3" data-mask="fone" inputmode="numeric"></div>
             </div>
-            <div class="form-row so-urb">
+            <div class="form-row">
                 <div class="form-group"><label>E-MAIL:</label><input type="email" name="email_proprietario"></div>
                 <div class="form-group"><label>CELULAR:</label><input type="tel" name="celular_proprietario" data-mask="fone" inputmode="numeric"></div>
             </div>
@@ -366,11 +366,16 @@
 
     <div class="actions">
         <h3>Opções de Exportação</h3>
-        <button type="button" class="btn btn-pdf" id="bPdf" onclick="exportPDF()">Exportar PDF</button>
-        <button type="button" class="btn btn-share" id="bShare" onclick="compartilharPDF()">Compartilhar PDF</button>
-        <button type="button" class="btn btn-doc" onclick="exportDOC()">Exportar Word (.DOCX)</button>
-        <button type="button" class="btn btn-excel" onclick="exportEXCEL()">Exportar planilha (.CSV)</button>
+        <button type="button" class="btn btn-pdf" id="bPdf" onclick="exportPDF()">Baixar PDF</button>
+        <button type="button" class="btn btn-share" id="bShare" onclick="itaziAbrirSeletor('compartilhar')">Compartilhar...</button>
+        <button type="button" class="btn btn-doc" onclick="exportDOC()">Baixar Word (.DOCX)</button>
+        <button type="button" class="btn btn-excel" onclick="exportEXCEL()">Baixar planilha (.CSV)</button>
         <button type="button" class="btn btn-excel" onclick="exportProjetoCSV()">Planilha do projeto (todas as fichas)</button>
+        <button type="button" class="btn" onclick="itaziAbrirSeletor('baixar')">Baixar...</button>
+        <button type="button" class="btn btn-sec" onclick="itaziExportarProjeto()">Exportar projeto</button>
+        <button type="button" class="btn btn-sec" onclick="document.getElementById('itaziImportar').click()">Importar projeto</button>
+        <input id="itaziImportar" type="file" accept="application/json,.json" hidden onchange="itaziImportarProjeto(this.files[0])">
+        <button type="button" class="btn btn-sec" onclick="itaziEscolherPasta()">Escolher pasta de cópias</button>
         <br>
         <button type="button" class="btn btn-sec" onclick="salvarBackup()">Salvar cópia de segurança</button>
         <button type="button" class="btn btn-sec" onclick="document.getElementById('abrirBackup').click()">Restaurar cópia</button>
@@ -1769,8 +1774,7 @@ function baixar(blob, nome) {
     if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();
 </script>
+<script src="enhancements.js"></script>
 <script src="app-extras.js"></script>
-<script src="melhorias-v7.js"></script>
-<script src="ux-v2.js"></script>
 </body>
 </html>
