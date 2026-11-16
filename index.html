@@ -377,12 +377,8 @@
             <button type="button" class="btn btn-share itazi-compartilhar" onclick="itaziSelecionarFormatos('compartilhar')">↗ COMPARTILHAR</button>
         </div>
         <div class="itazi-autosalvo">✓ Salvo automaticamente no aparelho</div>
-        <details class="itazi-config"><summary>⚙ Configurações</summary>
-            <div class="itazi-config-box"><b>Dados e backup</b><br>
-            <button type="button" class="btn btn-sec" onclick="salvarBackup()">Fazer backup agora</button>
-            <button type="button" class="btn btn-sec" onclick="document.getElementById('abrirBackup').click()">Restaurar backup</button>
-            <input type="file" id="abrirBackup" accept=".json" style="display:none" onchange="restaurarBackup(this)"></div>
-        </details>
+        <button type="button" class="itazi-config-btn" onclick="itaziAbrirConfiguracoes()">⚙ CONFIGURAÇÕES</button>
+        <input type="file" id="abrirBackup" accept=".json" style="display:none" onchange="restaurarBackup(this)">
     </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -757,11 +753,13 @@ async function processarFoto(file) {
     const c = await reduzir(file, MAXF), g = c.getContext('2d');
     const quando = meta.data || new Date(file.lastModified || Date.now());
     let coord = null, origem = '';
-    if (meta.lat != null) { coord = { lat: meta.lat, lon: meta.lon }; origem = 'foto'; }
-    else if (atual && atual.gps) { coord = atual.gps; origem = 'ficha'; }
+    const prefFonte = window.itaziConfig ? itaziConfig().fonteFoto : 'auto';
+    if ((prefFonte === 'auto' || prefFonte === 'foto') && meta.lat != null) { coord = { lat: meta.lat, lon: meta.lon }; origem = 'foto'; }
+    else if ((prefFonte === 'auto' || prefFonte === 'ficha') && atual && atual.gps) { coord = atual.gps; origem = 'ficha'; }
     const baseSrc = c.toDataURL('image/jpeg', 0.86);
-    const modoC = v('carimbo_coord'), linhas = [];
-    if (v('carimbo_data')) linhas.push(quando.toLocaleDateString('pt-BR') + '  ' + quando.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
+    const pref = window.itaziConfig ? itaziConfig() : null;
+    const modoC = pref ? pref.carimbo : v('carimbo_coord'), linhas = [];
+    if (pref ? pref.dataCarimbo : v('carimbo_data')) linhas.push(quando.toLocaleDateString('pt-BR') + '  ' + quando.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
     if (modoC !== 'sem' && coord) linhas.push(modoC === 'utm' ? txtUTM(coord) : txtLatLon(coord));
     if (linhas.length) {
         const fs = Math.max(14, Math.round(c.width / 42)), pad = Math.round(fs * 0.5);

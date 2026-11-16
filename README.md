@@ -1,10 +1,7 @@
-# Ficha de Vistoria - Itazi Engenharia
+# Ficha de Vistoria - Itazi Engenharia v16
 
-Versão de campo v15.
+Interface de campo simples e Configurações funcionais.
 
-## Interface operacional simplificada
-Na área principal de finalização há somente três ações: **Concluir vistoria**, **Baixar** e **Compartilhar**. PDF, Word, CSV e JSON são escolhidos somente depois de tocar em Baixar ou Compartilhar. Backup/restauração ficam recolhidos em **Configurações**.
+Configurações agora incluem: pasta principal (quando suportada pelo navegador), organização Ano/Mês/Projeto, formatos padrão, preferências de documentos, fonte e carimbo de coordenadas das fotos, exibição de coordenadas, comportamento de nova ficha/abertura e dados/backup com informação de armazenamento.
 
-As melhorias da v14 permanecem: separação original Urbana/Rural, múltiplos interessados e telefones, número do imóvel, email rural, coordenadas Lat/Long + UTM, recuperação das fontes de coordenadas das fotos e CSV estruturado.
-
-Cache offline: `ficha-15`.
+O GPS original da fotografia continua preservado quando disponível. Cache offline: `ficha-16`.
