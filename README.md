@@ -1,7 +1,15 @@
-# Ficha de Vistoria - Itazi Engenharia v16
+# Ficha de Vistoria - Itazi Engenharia v17
 
-Interface de campo simples e Configurações funcionais.
+Versão consolidada para uso em campo.
 
-Configurações agora incluem: pasta principal (quando suportada pelo navegador), organização Ano/Mês/Projeto, formatos padrão, preferências de documentos, fonte e carimbo de coordenadas das fotos, exibição de coordenadas, comportamento de nova ficha/abertura e dados/backup com informação de armazenamento.
+## Alterações principais
+- Ícones **? Ajuda rápida** e **⚙ Configurações** no topo do app. Configurações saiu do rodapé.
+- Pasta escolhida em Configurações passa a ser usada de fato pelo download, com estrutura Ano / Mês / Projeto. A referência da pasta é guardada no IndexedDB quando suportado. Downloads é usado como fallback quando não há autorização.
+- Croqui preserva o motor geométrico existente, ganha instrução passo a passo e comando Ajustar à tela.
+- **Nº da Vistoria** separado da **Referência Cadastral**. O Nº é operacional e sequencial por projeto; Referência Cadastral identifica o imóvel e é opcional.
+- Consulta de histórico pela Referência Cadastral, com opção de copiar endereço/localização anterior.
+- **Concluir vistoria** abre conferência de essenciais e atenções e registra data/hora e vistoriador.
+- Ajuda rápida integrada para início, localização, fotos, croqui, conclusão e downloads.
+- Mantidas as diferenças originais entre Urbana e Rural.
 
-O GPS original da fotografia continua preservado quando disponível. Cache offline: `ficha-16`.
+Cache offline: `ficha-17`.

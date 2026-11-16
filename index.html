@@ -118,6 +118,7 @@
 <body>
 <div class="container" id="form-container">
     <div class="logo-tela" id="logoTela"></div>
+    <div class="itazi-top-tools"><button type="button" onclick="itaziAbrirAjuda()" title="Ajuda rápida" aria-label="Ajuda rápida">?</button><button type="button" onclick="itaziAbrirConfiguracoes()" title="Configurações" aria-label="Configurações">⚙</button></div>
     <div class="modelo"><button type="button" id="bUrb" onclick="trocarModelo('urbana')">🏙️ URBANA</button><button type="button" id="bRur" onclick="trocarModelo('rural')">🌾 RURAL</button></div>
     <div class="header-title" id="tituloFicha">FICHA DE VISTORIA – ÁREAS URBANAS</div>
 
@@ -138,7 +139,7 @@
             <legend>Informações Gerais</legend>
             <div class="form-row"><div class="form-group full"><label>NOME DO PROJETO:</label><input type="text" name="nome_projeto"></div></div>
             <div class="form-row">
-                <div class="form-group"><label>REFERÊNCIA CADASTRAL:</label><input type="text" name="referencia_cadastral"></div>
+                <div class="form-group"><label>Nº DA VISTORIA:</label><input type="text" name="numero_vistoria" readonly placeholder="Gerado automaticamente"></div><div class="form-group"><label>REFERÊNCIA CADASTRAL:</label><input type="text" name="referencia_cadastral" placeholder="Se disponível"></div>
                 <div class="form-group"><label>DATA:</label><input type="date" name="data_vistoria"></div>
             </div>
             <div class="form-row"><div class="form-group full"><label>NOME DO VISTORIADOR:</label><input type="text" name="nome_vistoriador"></div></div>
@@ -377,7 +378,6 @@
             <button type="button" class="btn btn-share itazi-compartilhar" onclick="itaziSelecionarFormatos('compartilhar')">↗ COMPARTILHAR</button>
         </div>
         <div class="itazi-autosalvo">✓ Salvo automaticamente no aparelho</div>
-        <button type="button" class="itazi-config-btn" onclick="itaziAbrirConfiguracoes()">⚙ CONFIGURAÇÕES</button>
         <input type="file" id="abrirBackup" accept=".json" style="display:none" onchange="restaurarBackup(this)">
     </div>
 </div>
@@ -608,21 +608,17 @@ async function novaFicha() { await salvarAgora(); const f = fichaVazia(modelo())
 async function novaFichaMesmoProjeto() {
     await salvarAgora();
     const proj = v('nome_projeto');
-    if (!proj) { toast('Preencha o NOME DO PROJETO para numerar as fichas'); form.elements.nome_projeto.focus(); return; }
-    const todas = await dbTodas();
-    const re = new RegExp('^' + proj.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '-(\\d+)$');
-    const maior = todas.reduce((m, f) => { const x = (f.campos?.referencia_cadastral || '').match(re); return x ? Math.max(m, +x[1]) : m; }, 0);
+    if (!proj) { toast('Preencha o NOME DO PROJETO para criar a sequência'); form.elements.nome_projeto.focus(); return; }
+    const todas = await dbTodas(), chave = proj.replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'').toUpperCase() || 'VISTORIA';
+    const maior = todas.reduce((m, f) => { const n = String(f.campos?.numero_vistoria || ''); if (!n.startsWith(chave + '-')) return m; const x = parseInt(n.slice(chave.length + 1), 10); return Number.isFinite(x) ? Math.max(m, x) : m; }, 0);
     const f = fichaVazia(modelo());
-    Object.assign(f.campos, { nome_projeto: proj, nome_vistoriador: v('nome_vistoriador'), data_vistoria: v('data_vistoria') || hojeISO(),
-        referencia_cadastral: `${proj}-${String(maior + 1).padStart(3, '0')}`, municipio_imovel: v('municipio_imovel'),
-        estado_imovel: v('estado_imovel'), pais_imovel: v('pais_imovel') || 'Brasil',
-        carimbo_data: v('carimbo_data'), carimbo_coord: v('carimbo_coord'), ck_ativo: v('ck_ativo') });
-    await dbPut(f); aplicar(f); listarFichas(); toast('Ficha ' + f.campos.referencia_cadastral + ' criada');
+    Object.assign(f.campos, { nome_projeto: proj, numero_vistoria: `${chave}-${String(maior + 1).padStart(3, '0')}`, referencia_cadastral: '', nome_vistoriador: v('nome_vistoriador'), data_vistoria: v('data_vistoria') || hojeISO(), municipio_imovel: v('municipio_imovel'), estado_imovel: v('estado_imovel'), pais_imovel: v('pais_imovel') || 'Brasil', carimbo_data: v('carimbo_data'), carimbo_coord: v('carimbo_coord'), ck_ativo: v('ck_ativo') });
+    await dbPut(f); aplicar(f); listarFichas(); toast('Vistoria ' + f.campos.numero_vistoria + ' criada');
 }
 async function duplicarFicha() {
     await salvarAgora();
     const c = JSON.parse(JSON.stringify(atual)); c.id = uid(); c.criada = Date.now();
-    c.campos.referencia_cadastral = (c.campos.referencia_cadastral || '') + ' (cópia)';
+    c.campos.numero_vistoria = (c.campos.numero_vistoria || '') + ' (cópia)';
     c.campos.coordenadas = ''; delete c.gps; delete c.gpsTxt;          // coordenada é do outro imóvel
     c.fotos = []; c.croquis = []; delete c.aerea;
     await dbPut(c); aplicar(c); listarFichas(); toast('Ficha duplicada (sem fotos, croquis e coordenadas)');
@@ -1756,10 +1752,7 @@ async function exportProjetoCSV() {
         ('Projeto_' + (proj || 'todas_as_fichas') + '_' + hojeISO()).replace(/[^\w\-]+/g, '_') + '.csv');
     toast(`Planilha com ${todas.length} ficha(s)` + (proj ? ` do projeto ${proj}` : ''));
 }
-function baixar(blob, nome) {
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nome;
-    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-}
+function baixar(blob, nome) { if (window.itaziSalvarArquivo) { itaziSalvarArquivo(blob, nome); return; } const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nome; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); }
 
 /* ===================== INÍCIO ===================== */
 (async () => {
