@@ -1,17 +1,14 @@
 # Ficha de Vistoria - Itazi Engenharia
 
-PWA para fichas de vistoria urbana e rural.
+Versão reconstruída diretamente sobre o arquivo original.
 
-## Estrutura unificada
-As fichas Urbana e Rural compartilham os mesmos recursos gerais. Campos úteis que antes apareciam somente em um modelo agora ficam disponíveis nos dois. Campos estritamente rurais, como INCRA, CCIR, CAR, reserva legal e nome da fazenda, permanecem identificados pelo contexto rural quando aplicável.
+## Regra preservada
+- Campos originalmente urbanos continuam urbanos.
+- Campos originalmente rurais continuam rurais.
+- Nenhum bloco rural foi transferido para a ficha urbana, nem o inverso.
+- As únicas inclusões comuns aos dois modelos são as solicitadas: número do imóvel, visualização Lat/Long e UTM, múltiplos telefones, interessados adicionais, edição de coordenadas de fotos e novos fluxos de download/compartilhamento.
+- O e-mail foi liberado na ficha rural conforme pedido específico.
+- Outros interessados ficam dentro do bloco original `Dados dos Interessados` / `Dados do Proprietário`.
 
-## Dados dos Interessados
-O bloco se chama **Dados dos Interessados** nos dois modelos. O cadastro principal aparece como Interessado principal e o botão **+ Adicionar interessado** insere outros interessados dentro do mesmo bloco.
-
-## Publicar no GitHub Pages
-1. Extraia o ZIP na raiz do repositório.
-2. Commit e push na branch `main`.
-3. Settings > Pages > Deploy from a branch > `main` > `/ (root)`.
-4. Abra a página uma vez com internet para renovar o cache offline.
-
-Cache desta versão: `ficha-12`.
+## Publicação
+Extraia na raiz do repositório e publique pelo GitHub Pages. Cache: `ficha-13`.
